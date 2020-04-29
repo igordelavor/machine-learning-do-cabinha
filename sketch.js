@@ -13,11 +13,35 @@ function setup() {
   //var arr = [1,2];
   //Matrix.arrayToMatrix(arr);
   //rn.feedforward(arr);
-  var rn = new RedeNeural(2,3,2);
-  let arr = [1,2];
-  rn.train(arr,[0,1]);
+  //var rn = new RedeNeural(2,3,2);
+  //let arr = [1,2];
+  //rn.train(arr,[0,1]);
+  rn = new RedeNeural(2,3,1);
+  var train = true;
+  // XOR Problem
+  dataset = {
+    inputs:
+        [[1, 1],
+        [1, 0],
+        [0, 1],
+        [0, 0]],
+    outputs:
+        [[0],
+        [1],
+        [1],
+        [0]]
+  }
 }
 
 function draw() {
-  // put drawing code here
+    if (train) {
+    for (var i = 0; i < 10000; i++) {
+        var index = floor(random(4));
+        nn.train(dataset.inputs[index], dataset.outputs[index]);
+    }
+    if (nn.predict([0, 0])[0] < 0.04 && nn.predict([1, 0])[0] > 0.98) {
+        train = false;
+        console.log("terminou");
+    }
+  }
 }
